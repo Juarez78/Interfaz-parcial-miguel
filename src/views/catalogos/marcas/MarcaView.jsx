@@ -16,10 +16,10 @@ const MarcaView = ({ data, respuesta }) => {
         try {
             let res;
             if (editandoId) {
-                // Lógica de Actualización
+              
                 res = await actualizarMarca(editandoId, marcaData);
             } else {
-                // Lógica de Creación
+              
                 res = await crearMarca(marcaData);
             }
 
@@ -80,7 +80,7 @@ const MarcaView = ({ data, respuesta }) => {
                                 <td style={{ padding: '8px' }}>{m.id}</td>
                                 <td>{m.nombre}</td>
                                 <td style={{ display: 'flex', gap: '5px', justifyContent: 'center', padding: '5px' }}>
-                                    {/* BOTÓN ACTUALIZAR */}
+                                   
                                     <button 
                                         onClick={() => prepararEdicion(m)}
                                         style={{ color: 'white', backgroundColor: '#ffa500', border: 'none', padding: '5px 10px', borderRadius: '4px', cursor: 'pointer' }}
@@ -88,7 +88,7 @@ const MarcaView = ({ data, respuesta }) => {
                                         Editar
                                     </button>
 
-                                    {/* BOTÓN ELIMINAR */}
+                                  
                                     <button 
                                         onClick={async () => { 
                                             if(confirm(`¿Deseas eliminar la marca "${m.nombre}"?`)) { 

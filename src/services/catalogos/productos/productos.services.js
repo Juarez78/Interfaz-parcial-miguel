@@ -13,8 +13,7 @@ const getProductos = async () => {
 
         const res = await response.json();
         
-        // Como tu Controller devuelve { status: true, data: [...] }
-        // debemos retornar res.data
+       
         return res.data || []; 
     } catch (error) {
         console.error("Error al obtener productos:", error.message);
@@ -35,7 +34,7 @@ const crearProducto = async (objetoData) => {
             body: JSON.stringify(objetoData)
         });
 
-        // Retornamos el JSON completo para manejar el mensaje de éxito o errores 400
+        
         return await response.json();
     } catch (error) {
         console.error("Error al crear producto:", error.message);
