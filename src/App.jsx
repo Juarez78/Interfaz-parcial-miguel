@@ -1,120 +1,68 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { useState, useEffect } from 'react'
+import './utils/css/app.css'
+
+// Importación de Servicios
+import { getMarcas } from './services/catalogos/marcas/marcas.services'
+import { getProveedores } from './services/catalogos/proveedores/proveedores.services'
+import { getProductos } from './services/catalogos/productos/productos.services'
+
+// Importación de Vistas
+import MarcaView from './views/catalogos/marcas/MarcaView'
+import ProveedorView from './views/catalogos/proveedores/ProveedorView'
+import ProductoView from './views/catalogos/productos/ProductoView'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [listaMarcas, setListaMarcas] = useState([])
+  const [listaProveedores, setListaProveedores] = useState([])
+  const [listaProductos, setListaProductos] = useState([])
+
+  const cargarTodo = async () => {
+    try {
+      // Cargamos todas las listas de la API simultáneamente
+      const marcas = await getMarcas()
+      const proveedores = await getProveedores()
+      const productos = await getProductos()
+      
+      setListaMarcas(marcas || [])
+      setListaProveedores(proveedores || [])
+      setListaProductos(productos || [])
+    } catch (error) {
+      console.error("Error al cargar datos:", error.message)
+    }
+  }
+
+  useEffect(() => {
+    cargarTodo()
+  }, [])
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
+    <div className="container">
+      <h1>Panel de Administración - Parcial 2</h1>
+      
+      <hr />
+
+      <section>
+        <h2>Gestión de Marcas</h2>
+        {/* MarcaView ahora incluye su propio formulario de agregar y la tabla */}
+        <MarcaView data={listaMarcas} respuesta={cargarTodo} />
       </section>
 
-      <div className="ticks"></div>
+      <hr />
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
+      <section>
+        <h2>Gestión de Proveedores</h2>
+        {/* ProveedorView incluye su formulario y tabla */}
+        <ProveedorView data={listaProveedores} respuesta={cargarTodo} />
       </section>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+      <hr />
+
+      <section>
+        <h2>Gestión de Productos</h2>
+        {/* ProductoView incluye el formulario con selects y la tabla principal */}
+        <ProductoView data={listaProductos} respuesta={cargarTodo} />
+      </section>
+    </div>
   )
 }
 
