@@ -40,7 +40,7 @@ const MarcaView = ({ data, respuesta }) => {
         setEditandoId(marca.id);
     };
 
-    const cancelarEdicion = () => {
+    const cancelarEdicion = () => { 
         setNombre('');
         setEditandoId(null);
     };
@@ -93,7 +93,7 @@ const MarcaView = ({ data, respuesta }) => {
                                         onClick={async () => { 
                                             if(confirm(`¿Deseas eliminar la marca "${m.nombre}"?`)) { 
                                                 await eliminarMarca(m.id); 
-                                                respuesta(); 
+                                                await respuesta(); 
                                             } 
                                         }} 
                                         style={{ color: 'white', backgroundColor: 'red', border: 'none', padding: '5px 10px', borderRadius: '4px', cursor: 'pointer' }}

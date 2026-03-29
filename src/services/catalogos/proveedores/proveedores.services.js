@@ -64,4 +64,22 @@ const eliminarProveedor = async (id) => {
     }
 }
 
-export { getProveedores, crearProveedor, eliminarProveedor };
+const actualizarProveedor = async (id, dataObjeto) => {
+    const token = localStorage.getItem('token'); 
+    try {
+        const response = await fetch(`${url}/proveedores/${id}`, {
+            method: 'PUT',
+            headers: {  
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${token}` 
+            },
+            body: JSON.stringify(dataObjeto)
+        });
+        return await response.json();
+    } catch (error) {
+        console.error("Error al actualizar:", error.message);
+    }
+}
+
+export { getProveedores, crearProveedor, eliminarProveedor, actualizarProveedor };

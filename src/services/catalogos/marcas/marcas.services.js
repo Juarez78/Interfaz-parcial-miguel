@@ -35,7 +35,7 @@ const crearMarca = async (dataObjeto) => {
         
     
         return res; 
-    } catch (error) {
+    } catch (error) { 
         console.error("Error al crear:", error.message);
     }
 }

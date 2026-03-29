@@ -58,4 +58,17 @@ const eliminarProducto = async (id) => {
     }
 }
 
-export { getProductos, crearProducto, eliminarProducto };
+const actualizarProducto = async (id, data) => {
+    const token = localStorage.getItem('token');
+        const response = await fetch(`${url}/productos/${id}`, {
+        method: 'PUT',
+        headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}` 
+        },
+        body: JSON.stringify(data)
+    });
+    return await response.json();
+};
+
+export { getProductos, crearProducto, eliminarProducto, actualizarProducto };
